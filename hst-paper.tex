@@ -93,17 +93,29 @@ To grant a trusted person access 39 participants ansewered that it is not possib
 To prevent this type of misconceptions, service providers and HST manufacturers should launch an information campaign about HSTs and how they work. 
 If one or both of them fail to do their job or additional advertising is needed, consideration should be given to whether government institutions, such as the BSI (German Federal Office for Information Security), should launch joint / own campaigns to inform the population about better methods of securing their accounts online.
 
+\subsection{Downgrade Attacks}
+Besides FIDO different methods of multifactor authentication exists, like One-Time-Passwords (OTP), confirmation SMS and calls and the usage of recovery codes. Commenly the user can choose between the configured MFA schemes, but expect FIDO2 none of the mention schemes is secure against real-time phishing. While reviewing Alexa's top 100 websites Ulqinaku et al. found out that most of these websites forces users to register at least one different MFA to use FIDO2 in the first place. Effecitively creating a vulnerability even when FIDO2 is used, because it undermines the security of FIDO2. Only Google with Google's Advanced Protection offers a program not relying on weak MFA, but it is opt-in and not advertised on the Google Account Dashboard.
+
+A downgrade attack on FIDO2 can only be done if the user has different and weaker MFA registered to his account. The attacker can use this to ignore / skip the authentication via FIDO2. If an user visites a malicious website and tries a login to his account, the attacker can rely the response to victim. If the victim chooses to use FIDO2 the attacker simply ignores the response of the client and lets the user choose from a different MFA scheme, which is vulnerable to real-time phising.
+
+The attacker has to know when and if the user has inserted his security key to continue with the authentication. Normaly the browser would present a box above the webpage containing the domain and asking for the security key, but it is also possible via API functions to detect the presence of a HST without displaying this box. The attacker can display such a box with the content he likes on his website, but this is limited to the page and is not displayed above the content. For a normal user this is not easy to spot.\cite{274610}
+
+\subsection{Threats to HST}
+
+
 \subsection{Threats to OFA FIDO2}
 FIDO2 allows the usage of a hardware security key as a single factor (OFA / SFA) or a multi factor (MFA).
 
-\subsection{Downgrade Attacks}
 
-\subsection{Distribution}
+\subsection{More Problems}
+\paragraph{Account Recovery}
+\paragraph{Account Suspension}
+\paragraph{Distribution}
 
-\subsection{Convenience}
+\paragraph{Convenience}
 
 \section{Conclusion}
-
+educate the user / population, support FIDO2 on more websites
 % Start bibliography
 \bibliographystyle{alpha}
 \bibliography{literature}
