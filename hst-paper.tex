@@ -101,7 +101,32 @@ A downgrade attack on FIDO2 can only be done if the user has different and weake
 The attacker has to know when and if the user has inserted his security key to continue with the authentication. Normaly the browser would present a box above the webpage containing the domain and asking for the security key, but it is also possible via API functions to detect the presence of a HST without displaying this box. The attacker can display such a box with the content he likes on his website, but this is limited to the page and is not displayed above the content. For a normal user this is not easy to spot.\cite{274610}
 
 \subsection{Threats to HST}
+While FIDO2 seems secure it relies on a secure HST. Therefor, if the HST is compromised FIDO2 is not secure anymore. An attacker can get a hold of an access token on the supply chain between a manufacturer and the end users, either by intercepting the delivery or inserting malicious HST as an manufacturer or a re-seller. An attacker can also buy genuine token and return malicious HST to the seller on refund, because most sellers won't check if the HST got tempered with. Malicious HST result in one or more of the following attack vectors: firmware modifications, hardware modifications or secret extraction. Through the firmware modification an attacker can pre-initialize an token or add malicious code which exploits e.g. USB interfaces. In hardware modification an attacker can wire the HST up with an wireless transceiver, like GSM or Bluetooth. But also he is able to build token replicas as instructions are public available and can be used without expert knowledge. The main goal of both modification is to extract secrets, e.g. keys or seeds, from the HST. This is done most commonely via falut injections, timing side-channels and bus snooping. \cite{272198} This results in the following attack scenarios.
 
+\paragraph{Run-time secret extraction}
+The run-time secret extraction can be subdivided into in-band and out-of-band attacks. In the in-band case, the HST is modified in a way that it leaks secrets through in-protocol (covert) channels like the signature or other channels used in the transcation. In the out-of-band case, the HST sends the secrets via a different covert channel outside of the protocol like Bluetooth or GSM. 
+
+\paragraph{Delivery-time secret extraction}
+An attacker can extract pre-configured keys or seeds through the above mentioned mehtods, which allows him to determine the used keys.
+
+This attack is only releveant to HST which are shipped with pre-configured secrets by the manufcature like YubiKeys. In case of most HST but also YubiKeys these secrets can be changed by the user whenever they want.
+
+\paragraph{Secret fixation}
+Using hardware or software modifications or both an attacker can pre-load a key to the HST, which makes the key computation deterministic. 
+
+\paragraph{Predictable RNG modifcation}
+The Random Number Generator used for the secure creation of keys can be manipluliate to only create predicatable by using hardware and software modifications. In case of unintentionally weak randomness the attacker does not need to modify the token and can abuse it.
+
+\paragraph{Ransom attack}
+Like other ransom attacks, this attacks targets a denail of service. The HST is manipluliate in such a way that it stops operating after some time, demanding a ransom to resume working or release the secrets. This is attack has limited valabilty for FIDO2, since in most cases recovery codes are generated. This attack is more feasible for hardware walltes (out side of the scope of this paper).
+
+\paragraph{USB pivoting}
+On a nother node the HST can not only be used to attack logins, but also to attack the whole client via the USB interface. If the HST is equipped with malware it can act like USB Rubber Ducky (emulate a keyboard) or trigger a buffer overflow.
+
+\paragraph{}
+Pfeffer at al. present (already existing) methods to detect tempered HST.
+Modifcation on hardware or firmware level can be detected with tamper-evident package using holographic stickers. But this is only a low level of protection since holographic sticker are easily replaceable and the attacker can be a manufacturer or re-seller. A HST token can be single-piece cast, like the Yubikeys, or can be opened. Single-piece cast can be easily inspected but can be breakable with household chemicales when not using more chemical resistant plastic. Openable HST can be inspected by users increasing security by visually comparing manufacturer pictures with the HST. This process has its downsides as it is error-prone and cumbersome. Siginals on the printed circuit board (PCB) are intercebteable or maniplulatable needing shielding with can be done with a secure CPU or a secure element (external co-processor). The key never leaves this secure element and therefore cannot be intercept. To prevent firmware manipluliation automatic and manual software verification can be used. In case of automatic verification it will distinguished between local and remote validation. The local validation only validates the integrity by conducting a signature check. The remote validation is a more sophisticated where the internal status is validated by a third party. Both methods needs to visible to the user otherwise the user cannot make related trust decisions.
+The manual verification can only be done with some HST and the corresponding software has to be searched as it is not easily findable. Moreover, this method is neither explained nor advertised by vendors or service provides, letting uneducated users in the dark. A way to prevent attacks on pre-configured secrets is to not ship them at all and let the user generate thier secrets themselve. But manual verification and dispense of pre-configured secrets reduce the userfriendliness of HST, which can result in lower markt shares. \cite{272198}
 
 \subsection{Threats to OFA FIDO2}
 FIDO2 allows the usage of a hardware security key as a single factor (OFA / SFA) or a multi factor (MFA).
