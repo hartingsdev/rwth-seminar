@@ -33,7 +33,7 @@ Research Group IT-Security \\[.8cm]
 %
 \begin{abstract}
 The abstract should briefly summarize the contents of the paper in
-150--250 words.
+150--250 words. ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis eu volutpat odio facilisis mauris sit amet massa vitae tortor condimentum lacinia quis vel eros donec ac odio tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec et odio pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed velit dignissim sodales ut eu sem integer vitae justo eget magna fermentum iaculis eu non diam phasellus vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper eget duis at tellus at urna condimentum mattis pellentesque id nibh tortor id aliquet lectus proin nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas sed tempus urna et pharetra pharetra massa
 
 \end{abstract}
 %
@@ -128,17 +128,36 @@ Pfeffer at al. present (already existing) methods to detect tempered HST.
 Modifcation on hardware or firmware level can be detected with tamper-evident package using holographic stickers. But this is only a low level of protection since holographic sticker are easily replaceable and the attacker can be a manufacturer or re-seller. A HST token can be single-piece cast, like the Yubikeys, or can be opened. Single-piece cast can be easily inspected but can be breakable with household chemicales when not using more chemical resistant plastic. Openable HST can be inspected by users increasing security by visually comparing manufacturer pictures with the HST. This process has its downsides as it is error-prone and cumbersome. Siginals on the printed circuit board (PCB) are intercebteable or maniplulatable needing shielding with can be done with a secure CPU or a secure element (external co-processor). The key never leaves this secure element and therefore cannot be intercept. To prevent firmware manipluliation automatic and manual software verification can be used. In case of automatic verification it will distinguished between local and remote validation. The local validation only validates the integrity by conducting a signature check. The remote validation is a more sophisticated where the internal status is validated by a third party. Both methods needs to visible to the user otherwise the user cannot make related trust decisions.
 The manual verification can only be done with some HST and the corresponding software has to be searched as it is not easily findable. Moreover, this method is neither explained nor advertised by vendors or service provides, letting uneducated users in the dark. A way to prevent attacks on pre-configured secrets is to not ship them at all and let the user generate thier secrets themselve. But manual verification and dispense of pre-configured secrets reduce the userfriendliness of HST, which can result in lower markt shares. \cite{272198}
 
-\subsection{Threats to OFA FIDO2}
-FIDO2 allows the usage of a hardware security key as a single factor (OFA / SFA) or a multi factor (MFA).
-
-
 \subsection{More Problems}
+Besides the mention problems the FIDO2 standard has some other problems which are not bound to the implementation. This is highlighted in a study by Lyastani et al. \cite{9152694}
+
 \paragraph{Account Recovery}
+A fear the participants of the study had, was the losing of the HST, which means that they wont be able to access thier accounts. Currently other 2FA can be used to allow account access even when a HST fails. Some service provides allow to setup additional HST, which is recommended by the FIDO Alliance, or other 2FA schemes, which are as we showed earlier vulnerable to e.g. phishing. Only Google's Advanced Protection Program forces the user to register two HSTs.
+
+This issues is not yet challenged by the FIDO Alliance. The current recommendation is to use additional authenticators. The authors recommend guiding the users in the task of scalable account recovery. But this won't change the fact, that account recovery is a serious issues which should be handled by the FIDO instead of single service provides to create a single way of account recovery. This problem needs attention quickly especailly when FIDO2 should become the only 2FA or even a 1FA. 
+
 \paragraph{Account Suspension}
-\paragraph{Distribution}
+The authors themselve raise the concern how to revoke the HST from a account if the HST of the user is stolen. The FIDO Alliance agures that the risk of such thefts are lower than being the victim of a phishing campaign or server breach. The authors are concerend about the effect of FIDO (especially OFA) abusers in (intimate) partner violence. They are unsure if HST ease or hamper such target attacks. Also, the authors state that such behavior is not enough considered yet and that users need the possibility to lock thier account down without having the HST. An insperation can be the key revocation in PKI or GPG. 
+
+\section{Adoption Barries}
+Farke et al. explored the willingness of users to use HST in a study. Since they only had 9 participants a general statement cannot be made. But the study can show which prevent a widespreading of HST / FIDO2. The users indicated that they feared losing the HST, the additional effort to plug in the HST and the habit of using passwords.
 
 \paragraph{Convenience}
+Three participants stated that the login with a HST requires additional efforet and time, making it less convenient than using credentials like username and password. Also was perceived negatively that the setup of the HST took additional time (5 - 10 minutes). This implies that even a short duration of time can reduce the willingness to use HST.
 
+In the study the workflow was negatively impacted, because using a HST meant that additional steps were required for each login attempt. The click count and the time to login were listed. Also it was mentioned that Windows Hello can be a hurdle for adoption, because the account selection when using multiple accounts for a single service was not clear. This may be implementation dependet but if a user has to search the right account in the HST / authentication device it can devinetly prevent spreading of FIDO2. 
+
+The study also indicated that thought must be given to overcoming old habits and that measures must be taken to disseminate HST.
+
+\paragraph{}
+The authors mention that the participants understand the authentication process using HST and that the authentication time was more of a limiting factor. The difference in speed could be one of the primary adoption barries for FIDO2 / HST. Also, participants ansewered that unconscious decisions to use passwords instead of the HST which makes it even more difficult to change the mental mindeset of the users in general to use HST over passwords. Since only recent version of OS and clients were equipped with all WebAuthn features, WebAuthn should spread better in the future. Because it is no longer required only special software or certain knowledge and is thus better available to the general public. To overcome the mention adoption barriers the authors have the following suggestions:
+\begin{itemize}
+  \item Support for multiple HST (platform and roaming)
+  \item Requirement of adoption of HST
+  \item Implementation of FIDO2 in as many as possible services
+  \item Allow to "remember" the unlock state of HST when using PIN or biometrics.
+\end{itemize}
+\cite{255646}
 \section{Conclusion}
 educate the user / population, support FIDO2 on more websites
 % Start bibliography
